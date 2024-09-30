@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Noto+Sans+JP:wght@400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #FF1493;
+            --secondary-color: #00BFFF;
+            --accent-color: #FFD700;
+            --text-color: #333;
+            --bg-color: #F0F8FF;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            font-family: 'Noto Sans JP', 'Poppins', sans-serif;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .navbar {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            padding: 1rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 1000;
+        }
+
+        .navbar-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-brand {
+            color: white;
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-link {
+            color: white;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            padding: 5px 10px;
+        }
+
+        .nav-link:hover {
+            text-shadow: 0 0 10px var(--accent-color);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            height: 3px;
+            width: 25px;
+            background: white;
+            margin: 3px 0;
+            display: block;
+            transition: all 0.3s ease;
+        }
+
+        .hero {
+            background: url('/api/placeholder/1200/400') center/cover no-repeat;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero p {
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            margin-bottom: 2rem;
+        }
+
+        .btn-explore {
+            background-color: var(--accent-color);
+            color: var(--text-color);
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            font-weight: 700;
+            padding: 10px 25px;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-explore:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px var(--accent-color);
+        }
+
+        .live-section {
+            padding: 4rem 0;
+        }
+
+        .live-title {
+            color: var(--primary-color);
+            font-size: clamp(1.8rem, 4vw, 2.2rem);
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .live-subtitle {
+            color: var(--secondary-color);
+            font-size: clamp(1.5rem, 3vw, 1.8rem);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .live-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            /* 5列の固定グリッド */
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .btn-year {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 0;
+            /* 上下のパディングを増やす */
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: block;
+            /* インラインブロックからブロックに変更 */
+            text-align: center;
+            font-weight: 700;
+            width: 100%;
+            /* 幅を100%に設定 */
+            min-width: 80px;
+            /* 最小幅を設定 */
+        }
+
+        .btn-year:hover {
+            background-color: var(--secondary-color);
+            transform: scale(1.05);
+        }
+
+        .footer {
+            background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .footer p {
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+                justify-content: center;
+                align-items: center;
+                z-index: 999;
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+            }
+
+            .nav-links.active {
+                display: flex;
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .nav-link {
+                font-size: 1.2rem;
+                margin: 15px 0;
+            }
+
+            .hamburger.active span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+
+            .hamburger.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(7px, -6px);
+            }
+
+            .hero {
+                min-height: 300px;
+            }
+
+            .live-grid {
+                grid-template-columns: repeat(3, 1fr);
+                /* モバイルでは3列に */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .live-grid {
+                grid-template-columns: repeat(2, 1fr);
+                /* 小さい画面では2列に */
+            }
+        }
+    </style>
+    <title>カラフルWiki</title>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-content">
+                <a class="navbar-brand" href="#">カラフルWiki</a>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <div class="nav-links">
+                    <a class="nav-link" href="#">Home</a>
+                    <a class="nav-link" href="#">LIVE</a>
+                    <a class="nav-link" href="#">SONG</a>
+                    <a class="nav-link" href="#">PEERS</a>
+                    <a class="nav-link" href="#">BAND</a>
+                    <a class="nav-link" href="#">LIBRARY</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <div class="hero-content">
+            <h1>Colorful.Wiki</h1>
+            <p>カラフルな音楽の世界へようこそ！</p>
+            <a href="#live-section" class="btn-explore">LIVEを探索する</a>
+        </div>
+    </div>
+
+    <div class="container live-section" id="live-section">
+        <h2 class="live-title">LIVE</h2>
+        <p class="text-center">LIVEから探す</p>
+
+        <h3 class="live-subtitle">星友祭</h3>
+        <div class="live-grid">
+            <!-- <a class="btn-year" href="seiyuusai/2014.php">2014</a> -->
+            <a class="btn-year" href="seiyuusai/2015.php">2015</a>
+            <!-- <a class="btn-year" href="seiyuusai/2016.php">2016</a>
+            <a class="btn-year" href="seiyuusai/2017.php">2017</a>
+            <a class="btn-year" href="seiyuusai/2018.php">2018</a>
+            <a class="btn-year" href="seiyuusai/2019.php">2019</a>
+            <a class="btn-year" href="seiyuusai/2020.php">2020</a>
+            <a class="btn-year" href="seiyuusai/2021.php">2021</a>
+            <a class="btn-year" href="seiyuusai/2022.php">2022</a>
+            <a class="btn-year" href="seiyuusai/2023.php">2023</a>
+            <a class="btn-year" href="seiyuusai/2024.php">2024</a> -->
+        </div>
+
+        <h3 class="live-subtitle">夏LIVE</h3>
+        <div class="live-grid">
+            <!-- <a class="btn-year" href="summer/2014.html">2014</a> -->
+            <a class="btn-year" href="summer/2015.html">2015</a>
+            <!-- <a class="btn-year" href="summer/2016.html">2016</a>
+            <a class="btn-year" href="summer/2017.html">2017</a>
+            <a class="btn-year" href="summer/2018.html">2018</a>
+            <a class="btn-year" href="summer/2019.html">2019</a>
+            <a class="btn-year" href="summer/2020.html">2020</a>
+            <a class="btn-year" href="summer/2021.html">2021</a>
+            <a class="btn-year" href="summer/2022.html">2022</a> -->
+            <a class="btn-year" href="summer/2023.html">2023</a>
+            <a class="btn-year" href="summer/2024.html">2024</a>
+        </div>
+
+        <h3 class="live-subtitle">新歓LIVE</h3>
+        <div class="live-grid">
+            <!-- <a class="btn-year" href="shinkan/2014.html">2014</a>
+            <a class="btn-year" href="shinkan/2015.html">2015</a>
+            <a class="btn-year" href="shinkan/2016.html">2016</a>
+            <a class="btn-year" href="shinkan/2017.html">2017</a>
+            <a class="btn-year" href="shinkan/2018.html">2018</a>
+            <a class="btn-year" href="shinkan/2019.html">2019</a>
+            <a class="btn-year" href="shinkan/2020.html">2020</a>
+            <a class="btn-year" href="shinkan/2021.html">2021</a> -->
+            <a class="btn-year" href="shinkan/2022.html">2022</a>
+            <a class="btn-year" href="shinkan/2023.html">2023</a>
+            <a class="btn-year" href="shinkan/2024.html">2024</a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 カラフルWiki. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const hamburger = document.querySelector('.hamburger');
+            const navLinks = document.querySelector('.nav-links');
+
+            hamburger.addEventListener('click', function () {
+                hamburger.classList.toggle('active');
+                navLinks.classList.toggle('active');
+            });
+
+            // メニューリンクをクリックしたらメニューを閉じる
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('active');
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Noto+Sans+JP:wght@400;700&display=swap"
+        rel="stylesheet">
+    <title>カラフルWiki</title>
+    <style>
+        :root {
+            --primary-color: #FF1493;
+            --secondary-color: #00BFFF;
+            --accent-color: #FFD700;
+            --text-color: #333;
+            --bg-color: #F0F8FF;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            font-family: 'Noto Sans JP', 'Poppins', sans-serif;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .navbar {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            padding: 1rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 1000;
+        }
+
+        .navbar-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-brand {
+            color: white;
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-link {
+            color: white;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            padding: 5px 10px;
+        }
+
+        .nav-link:hover {
+            text-shadow: 0 0 10px var(--accent-color);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .hamburger span {
+            height: 3px;
+            width: 25px;
+            background: white;
+            margin: 3px 0;
+            display: block;
+            transition: all 0.3s ease;
+        }
+
+        .hero {
+            background: url('/api/placeholder/1200/400') center/cover no-repeat;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero p {
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            margin-bottom: 2rem;
+        }
+
+        .btn-explore {
+            background-color: var(--accent-color);
+            color: var(--text-color);
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            font-weight: 700;
+            padding: 10px 25px;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-explore:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px var(--accent-color);
+        }
+
+        .category-section {
+            padding: 4rem 0;
+        }
+
+        .category-title {
+            color: var(--primary-color);
+            font-size: clamp(1.8rem, 4vw, 2.2rem);
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .category-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .category-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .category-card-content {
+            padding: 1.5rem;
+        }
+
+        .category-card-title {
+            color: var(--secondary-color);
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .category-card-text {
+            color: var(--text-color);
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .btn-category {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+            font-size: 0.9rem;
+        }
+
+        .btn-category:hover {
+            background-color: var(--secondary-color);
+            transform: scale(1.05);
+        }
+
+        .footer {
+            background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .footer p {
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        /* ローディング画面のスタイル */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .loading-content {
+            text-align: center;
+        }
+
+        .loading-text {
+            color: white;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .music-notes {
+            display: flex;
+            justify-content: center;
+        }
+
+        .note {
+            font-size: 40px;
+            color: var(--accent-color);
+            margin: 0 10px;
+            animation: bounce 0.6s infinite alternate;
+        }
+
+        .note:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .note:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes bounce {
+            from {
+                transform: translateY(0);
+            }
+
+            to {
+                transform: translateY(-20px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+                z-index: 999;
+            }
+
+            .nav-links.active {
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .nav-link {
+                font-size: 1.5rem;
+                margin: 15px 0;
+            }
+
+            .hamburger.active span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+
+            .hamburger.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(7px, -6px);
+            }
+
+            .hero {
+                min-height: 300px;
+            }
+
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ローディング画面 -->
+    <div class="loading-screen" id="loading-screen">
+        <div class="loading-content">
+            <div class="loading-text">カラフルWikiを読み込み中...</div>
+            <div class="music-notes">
+                <div class="note">&#9835;</div>
+                <div class="note">&#9833;</div>
+                <div class="note">&#9834;</div>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-content">
+                <a class="navbar-brand" href="#">カラフルWiki</a>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <div class="nav-links">
+                    <a class="nav-link" href="#">Home</a>
+                    <a class="nav-link" href="#">LIVE</a>
+                    <a class="nav-link" href="#">SONG</a>
+                    <a class="nav-link" href="#">PEERS</a>
+                    <a class="nav-link" href="#">BAND</a>
+                    <a class="nav-link" href="#">LIBRARY</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <div class="hero-content">
+            <h1>Colorful.Wiki</h1>
+            <p>カラフルな音楽の世界へようこそ！</p>
+            <a href="#categories" class="btn-explore">探索を始める</a>
+        </div>
+    </div>
+
+    <div class="container category-section" id="categories">
+        <h2 class="category-title">カテゴリーから探す</h2>
+        <div class="category-grid">
+            <div class="category-card">
+                <img src="/api/placeholder/400/200" alt="LIVE">
+                <div class="category-card-content">
+                    <h3 class="category-card-title">LIVE</h3>
+                    <p class="category-card-text">過去のライブ情報やセットリストを探索しよう！</p>
+                    <a href="lives/lives.html" class="btn-category">LIVEを探す</a>
+                </div>
+            </div>
+            <div class="category-card">
+                <img src="/api/placeholder/400/200" alt="SONG">
+                <div class="category-card-content">
+                    <h3 class="category-card-title">SONG</h3>
+                    <p class="category-card-text">カラフルの楽曲情報やリリース情報をチェック！</p>
+                    <a href="#" class="btn-category">SONGを探す</a>
+                </div>
+            </div>
+            <div class="category-card">
+                <img src="/api/placeholder/400/200" alt="BAND">
+                <div class="category-card-content">
+                    <h3 class="category-card-title">BAND</h3>
+                    <p class="category-card-text">バンドメンバーや歴史について詳しく知ろう！</p>
+                    <a href="#" class="btn-category">BANDを探す</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 カラフルWiki. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const hamburger = document.querySelector('.hamburger');
+            const navLinks = document.querySelector('.nav-links');
+            const loadingScreen = document.getElementById('loading-screen');
+
+            // ハンバーガーメニューの制御
+            hamburger.addEventListener('click', function () {
+                this.classList.toggle('active');
+                navLinks.classList.toggle('active');
+            });
+
+            // メニューリンクをクリックしたらメニューを閉じる
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('active');
+                });
+            });
+
+            // ローディング画面を非表示にする関数
+            function hideLoadingScreen() {
+                loadingScreen.style.opacity = '0';
+                loadingScreen.style.transition = 'opacity 0.5s ease-out';
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                }, 500);
+            }
+
+            // ページ読み込み完了時の処理
+            window.addEventListener('load', function () {
+                // ローディング画面を2秒間表示した後に非表示にする
+                setTimeout(hideLoadingScreen, 2000);
+            });
+
+            // スムーズスクロール
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
